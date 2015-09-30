@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicMeasures.cs" />
+    <Compile Include="Measure.cs" />
     <Compile Include="Operand.cs" />
     <Compile Include="PhysicsMath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
