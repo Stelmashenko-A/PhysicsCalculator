@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="BasicMeasures.cs" />
     <Compile Include="Operand.cs" />
+    <Compile Include="PhysicsMath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

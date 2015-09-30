@@ -59,6 +59,7 @@ namespace PhysicsCalculator
                     measurementUnits.Add(variable, operand2.MeasurementUnits[variable]);
                 }
             }
+
             foreach (var variable in measurementUnits.Keys.Where(variable => measurementUnits[variable] == 0))
             {
                 measurementUnits.Remove(variable);
@@ -78,23 +79,5 @@ namespace PhysicsCalculator
             return operand1*(1/operand2);
         }
 
-        public static Operand Pow(Operand operand, int power)
-        {
-            if (power == 0)
-            {
-                return new Operand(1, new Dictionary<BasicMeasures, int>());
-            }
-
-            var result = new Operand(operand.Value, operand.MeasurementUnits);
-            for (var i = 1; i < Math.Abs(power); i++)
-            {
-                result *= operand;
-            }
-            if (power < 0)
-            {
-                result = 1/result;
-            }
-            return result;
-        }
     }
 }
