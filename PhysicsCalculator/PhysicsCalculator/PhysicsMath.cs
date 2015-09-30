@@ -9,7 +9,7 @@ namespace PhysicsCalculator
         {
             if (power == 0)
             {
-                return new Operand(1, new Dictionary<BasicMeasures, int>());
+                return new Operand(1, new Dictionary<Measure, int>());
             }
 
             var tmp = operand.MeasurementUnits;

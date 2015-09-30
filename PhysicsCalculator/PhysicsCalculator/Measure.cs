@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PhysicsCalculator
 {
@@ -11,9 +12,9 @@ namespace PhysicsCalculator
 
         private readonly Func<double, double> _inverseMapping;
 
-        public IDictionary<BasicMeasures, int> SIequivalent { get; }
+        public IDictionary<Measure, int> SIequivalent { get; }
 
-        public Measure(string name, IDictionary<BasicMeasures, int> sIequivalent, Func<double, double> mapping, Func<double, double> inverseMapping)
+        public Measure(string name, IDictionary<Measure, int> sIequivalent, Func<double, double> mapping, Func<double, double> inverseMapping)
         {
             Name = name;
             _mapping = mapping;
@@ -21,7 +22,7 @@ namespace PhysicsCalculator
             SIequivalent = sIequivalent;
         }
 
-        public Measure(string name, double multiplier, IDictionary<BasicMeasures, int> sIequivalent)
+        public Measure(string name, double multiplier, IDictionary<Measure, int> sIequivalent)
         {
             Name = name;
             SIequivalent = sIequivalent;
@@ -54,5 +55,7 @@ namespace PhysicsCalculator
         {
             return Name?.GetHashCode() ?? 0;
         }
+
+        public bool IsBaseSIMeasure => SIequivalent.Count == 1 && SIequivalent.First().Value == 1;
     }
 }

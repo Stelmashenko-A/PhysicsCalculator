@@ -8,9 +8,9 @@ namespace PhysicsCalculator
     {
         public double Value { get; protected set; }
 
-        public Dictionary<BasicMeasures, int> MeasurementUnits { get; protected set; }
+        public Dictionary<Measure, int> MeasurementUnits { get; protected set; }
 
-        public Operand(double value, Dictionary<BasicMeasures, int> measurementUnits)
+        public Operand(double value, Dictionary<Measure, int> measurementUnits)
         {
             Value = value;
             MeasurementUnits = measurementUnits;
