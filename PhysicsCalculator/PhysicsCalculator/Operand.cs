@@ -8,7 +8,26 @@ namespace PhysicsCalculator
     {
         public double Value { get; protected set; }
 
-        public Dictionary<Measure, int> MeasurementUnits { get; protected set; }
+        private Dictionary<Measure, int> _measurementUnits;
+
+        public Dictionary<Measure, int> MeasurementUnits
+        {
+            get
+            {
+                var tmp = new Dictionary<Measure, int>();
+                foreach (var variable in _measurementUnits)
+                {
+                    var clone = variable.Key.Clone() as Measure;
+                    if (clone == null)
+                    {
+                        throw new Exception();
+                    }
+                    tmp.Add(clone, variable.Value);
+                }
+                return tmp;
+            }
+            protected set { _measurementUnits = value; }
+        }
 
         public Operand(double value, Dictionary<Measure, int> measurementUnits)
         {
@@ -48,7 +67,7 @@ namespace PhysicsCalculator
         public static Operand operator *(Operand operand1, Operand operand2)
         {
             var measurementUnits = operand1.MeasurementUnits;
-            foreach (var variable in operand2.MeasurementUnits.Keys)
+            foreach (var variable in operand2.MeasurementUnits.Keys.ToList())
             {
                 if (measurementUnits.ContainsKey(variable))
                 {

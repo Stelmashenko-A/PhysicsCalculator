@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PhysicsCalculator
 {
@@ -12,13 +13,9 @@ namespace PhysicsCalculator
                 return new Operand(1, new Dictionary<Measure, int>());
             }
 
-            var tmp = operand.MeasurementUnits;
-            foreach (var variable in tmp.Keys)
-            {
-                tmp[variable] *= Math.Abs(power);
-            }
+           
 
-            var result = new Operand(operand.Value, tmp);
+            var result = new Operand(operand.Value, operand.MeasurementUnits);
             for (var i = 1; i < Math.Abs(power); i++)
             {
                 result *= operand;

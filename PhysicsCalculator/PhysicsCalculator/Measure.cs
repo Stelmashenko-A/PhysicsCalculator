@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PhysicsCalculator
 {
-    public class Measure
+    public class Measure:ICloneable
     {
         public string Name { get; }
 
@@ -12,9 +12,9 @@ namespace PhysicsCalculator
 
         private readonly Func<double, double> _inverseMapping;
 
-        public IDictionary<Measure, int> SIequivalent { get; }
+        public IDictionary<BasicMeasures, int> SIequivalent { get; }
 
-        public Measure(string name, IDictionary<Measure, int> sIequivalent, Func<double, double> mapping, Func<double, double> inverseMapping)
+        public Measure(string name, IDictionary<BasicMeasures, int> sIequivalent, Func<double, double> mapping, Func<double, double> inverseMapping)
         {
             Name = name;
             _mapping = mapping;
@@ -22,7 +22,7 @@ namespace PhysicsCalculator
             SIequivalent = sIequivalent;
         }
 
-        public Measure(string name, double multiplier, IDictionary<Measure, int> sIequivalent)
+        public Measure(string name, double multiplier, IDictionary<BasicMeasures, int> sIequivalent)
         {
             Name = name;
             SIequivalent = sIequivalent;
@@ -43,7 +43,7 @@ namespace PhysicsCalculator
         public override bool Equals(object obj)
         {
             var tmp = obj as Measure;
-            return Equals(this, tmp);
+            return Equals(tmp);
         }
 
         protected bool Equals(Measure other)
@@ -54,6 +54,13 @@ namespace PhysicsCalculator
         public override int GetHashCode()
         {
             return Name?.GetHashCode() ?? 0;
+        }
+
+        public object Clone()
+        {
+            var cloneDictionary = SIequivalent.ToDictionary(item => item.Key, variable => variable.Value);
+            var clone = new Measure(Name,cloneDictionary,_mapping,_inverseMapping);
+            return clone;
         }
 
         public bool IsBaseSIMeasure => SIequivalent.Count == 1 && SIequivalent.First().Value == 1;
