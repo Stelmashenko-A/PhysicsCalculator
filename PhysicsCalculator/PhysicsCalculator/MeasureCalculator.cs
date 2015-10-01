@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace PhysicsCalculator
 {
-    public class MeasureCalculator<T> where T:class , IMeasure
+    public static class MeasureCalculator<T> where T:class , IMeasure
     {
-        public IDictionary<T, int> Clone(IDictionary<T, int> obj)
+        public static IDictionary<T, int> Clone(IDictionary<T, int> obj)
         {
             var clone = new Dictionary<T,int>();
             foreach (var variable in obj)
@@ -21,7 +21,7 @@ namespace PhysicsCalculator
             return clone;
         }
 
-        public bool CheckForEquals(IDictionary<T, int> summand1, IDictionary<T, int> summand2)
+        public static bool CheckForEquals(IDictionary<T, int> summand1, IDictionary<T, int> summand2)
         {
             if (summand1.Count != summand2.Keys.Count) return false;
             return !summand1.Keys.Any(
@@ -30,12 +30,12 @@ namespace PhysicsCalculator
                     summand2[variable] != summand1[variable]);
         }
 
-        public IDictionary<T, int> Inverse(IDictionary<T, int> measure)
+        public static IDictionary<T, int> Inverse(IDictionary<T, int> measure)
         {
             return measure.ToDictionary(variable => variable.Key, variable => variable.Value*-1);
         }
 
-        public IDictionary<T, int> Multiply(IDictionary<T, int> multiplier1, IDictionary<T, int> multiplier2)
+        public static IDictionary<T, int> Multiply(IDictionary<T, int> multiplier1, IDictionary<T, int> multiplier2)
         {
             var measurementUnits = Clone(multiplier1);
             var multiplier2Clone = Clone(multiplier2);
@@ -53,12 +53,12 @@ namespace PhysicsCalculator
             return measurementUnits;
         }
 
-        public IDictionary<T, int> Divide(IDictionary<T, int> divident, IDictionary<T, int> divider)
+        public static IDictionary<T, int> Divide(IDictionary<T, int> divident, IDictionary<T, int> divider)
         {
             return Multiply(divident, Inverse(divider));
         }
 
-        public IDictionary<T, int> Pow(IDictionary<T, int> value, int power)
+        public static IDictionary<T, int> Pow(IDictionary<T, int> value, int power)
         {
             if (power == 0)
             {
@@ -78,7 +78,7 @@ namespace PhysicsCalculator
             return result;
         }
 
-        public IDictionary<T, int> Root(IDictionary<T, int> value, int power)
+        public static IDictionary<T, int> Root(IDictionary<T, int> value, int power)
         {
             if (power == 0)
             {

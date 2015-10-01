@@ -8,28 +8,18 @@ namespace PhysicsCalculator
     {
         public double Value { get; protected set; }
 
-        private Dictionary<Measure, int> _measurementUnits;
+        private IDictionary<Measure, int> _measurementUnits;
 
-        public Dictionary<Measure, int> MeasurementUnits
+        public IDictionary<Measure, int> MeasurementUnits
         {
             get
             {
-                var tmp = new Dictionary<Measure, int>();
-                foreach (var variable in _measurementUnits)
-                {
-                    var clone = variable.Key.Clone() as Measure;
-                    if (clone == null)
-                    {
-                        throw new Exception();
-                    }
-                    tmp.Add(clone, variable.Value);
-                }
-                return tmp;
+                return MeasureCalculator<Measure>.Clone(_measurementUnits);
             }
             protected set { _measurementUnits = value; }
         }
 
-        public Operand(double value, Dictionary<Measure, int> measurementUnits)
+        public Operand(double value, IDictionary<Measure, int> measurementUnits)
         {
             Value = value;
             MeasurementUnits = measurementUnits;
@@ -37,15 +27,7 @@ namespace PhysicsCalculator
 
         public static Operand operator +(Operand operand1, Operand operand2)
         {
-            if (operand1.MeasurementUnits.Keys.Count != operand2.MeasurementUnits.Keys.Count) throw new Exception();
-            if (
-                operand1.MeasurementUnits.Keys.Any(
-                    variable =>
-                        !operand2.MeasurementUnits.ContainsKey(variable) ||
-                        operand2.MeasurementUnits[variable] != operand1.MeasurementUnits[variable]))
-            {
-                throw new Exception();
-            }
+            if(!MeasureCalculator<Measure>.CheckForEquals(operand1.MeasurementUnits,operand2.MeasurementUnits)) throw new Exception();
             return new Operand(operand1.Value + operand2.Value, operand1.MeasurementUnits);
         }
 
@@ -66,31 +48,13 @@ namespace PhysicsCalculator
 
         public static Operand operator *(Operand operand1, Operand operand2)
         {
-            var measurementUnits = operand1.MeasurementUnits;
-            foreach (var variable in operand2.MeasurementUnits.Keys.ToList())
-            {
-                if (measurementUnits.ContainsKey(variable))
-                {
-                    measurementUnits[variable] += operand2.MeasurementUnits[variable];
-                }
-                else
-                {
-                    measurementUnits.Add(variable, operand2.MeasurementUnits[variable]);
-                }
-            }
-
-            foreach (var variable in measurementUnits.Keys.Where(variable => measurementUnits[variable] == 0).ToList())
-            {
-                measurementUnits.Remove(variable);
-            }
-            return new Operand(operand1.Value*operand2.Value, measurementUnits);
+            return new Operand(operand1.Value*operand2.Value, MeasureCalculator<Measure>.Multiply(operand1.MeasurementUnits, operand2.MeasurementUnits));
         }
 
         public static Operand operator /(double operand1, Operand operand2)
         {
-            var tmp = operand2.MeasurementUnits.Keys.ToDictionary(variable => variable,
-                variable => -1*operand2.MeasurementUnits[variable]);
-            return new Operand(1.0/operand2.Value, tmp);
+
+            return new Operand(1.0/operand2.Value, MeasureCalculator<Measure>.Inverse(operand2.MeasurementUnits));
         }
 
         public static Operand operator /(Operand operand1, Operand operand2)

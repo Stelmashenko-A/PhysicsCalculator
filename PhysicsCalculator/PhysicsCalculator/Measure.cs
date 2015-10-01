@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PhysicsCalculator
 {
-    public class Measure : ICloneable
+    public class Measure : IMeasure
     {
         public string Name { get; }
 
