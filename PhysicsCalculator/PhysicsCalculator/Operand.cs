@@ -79,7 +79,7 @@ namespace PhysicsCalculator
                 }
             }
 
-            foreach (var variable in measurementUnits.Keys.Where(variable => measurementUnits[variable] == 0))
+            foreach (var variable in measurementUnits.Keys.Where(variable => measurementUnits[variable] == 0).ToList())
             {
                 measurementUnits.Remove(variable);
             }

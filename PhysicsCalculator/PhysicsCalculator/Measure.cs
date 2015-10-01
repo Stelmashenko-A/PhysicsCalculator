@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PhysicsCalculator
 {
-    public class Measure:ICloneable
+    public class Measure : ICloneable
     {
         public string Name { get; }
 
@@ -14,7 +14,8 @@ namespace PhysicsCalculator
 
         public IDictionary<BasicMeasures, int> SIequivalent { get; }
 
-        public Measure(string name, IDictionary<BasicMeasures, int> sIequivalent, Func<double, double> mapping, Func<double, double> inverseMapping)
+        public Measure(string name, IDictionary<BasicMeasures, int> sIequivalent, Func<double, double> mapping,
+            Func<double, double> inverseMapping)
         {
             Name = name;
             _mapping = mapping;
@@ -59,7 +60,7 @@ namespace PhysicsCalculator
         public object Clone()
         {
             var cloneDictionary = SIequivalent.ToDictionary(item => item.Key, variable => variable.Value);
-            var clone = new Measure(Name,cloneDictionary,_mapping,_inverseMapping);
+            var clone = new Measure(Name, cloneDictionary, _mapping, _inverseMapping);
             return clone;
         }
 
