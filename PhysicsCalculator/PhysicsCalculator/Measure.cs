@@ -12,9 +12,9 @@ namespace PhysicsCalculator
 
         private readonly Func<double, double> _inverseMapping;
 
-        public IDictionary<BasicMeasures, int> SIequivalent { get; }
+        public IDictionary<SIMeasure, int> SIequivalent { get; }
 
-        public Measure(string name, IDictionary<BasicMeasures, int> sIequivalent, Func<double, double> mapping,
+        public Measure(string name, IDictionary<SIMeasure, int> sIequivalent, Func<double, double> mapping,
             Func<double, double> inverseMapping)
         {
             Name = name;
@@ -23,7 +23,7 @@ namespace PhysicsCalculator
             SIequivalent = sIequivalent;
         }
 
-        public Measure(string name, double multiplier, IDictionary<BasicMeasures, int> sIequivalent)
+        public Measure(string name, double multiplier, IDictionary<SIMeasure, int> sIequivalent)
         {
             Name = name;
             SIequivalent = sIequivalent;
