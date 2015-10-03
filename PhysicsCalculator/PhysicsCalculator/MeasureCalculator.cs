@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace PhysicsCalculator
 {
-    public static class MeasureCalculator<T> where T:class , IMeasure
+    public static class MeasureCalculator<T> where T : class, IMeasure
     {
         public static IDictionary<T, int> Clone(IDictionary<T, int> obj)
         {
-            var clone = new Dictionary<T,int>();
+            var clone = new Dictionary<T, int>();
             foreach (var variable in obj)
             {
                 var objClone = variable.Key.Clone();
@@ -70,7 +70,6 @@ namespace PhysicsCalculator
             return measurementUnits;
         }
 
-
         public static IDictionary<T, int> Divide(IDictionary<T, int> divident, IDictionary<T, int> divider)
         {
             return Multiply(divident, Inverse(divider));
@@ -102,18 +101,17 @@ namespace PhysicsCalculator
             {
                 return Pow(value, 0);
             }
+
             var tmp = value;
             foreach (var variable in tmp.Keys.ToList())
             {
-                if (tmp[variable] % Math.Abs(power) != 0)
+                if (tmp[variable]%Math.Abs(power) != 0)
                 {
                     throw new RootException();
                 }
                 tmp[variable] /= Math.Abs(power);
             }
-
             return tmp;
         }
-
     }
 }

@@ -21,16 +21,16 @@ namespace PhysicsCalculator
             Name = name;
             IsBasicIsMeasure = true;
             SIequivalent = new Dictionary<Measure, int>();
-            SIequivalent.Add(this,1);
-
+            SIequivalent.Add(this, 1);
         }
 
         public Measure()
         {
             Name = "unmeasured";
             IsBasicIsMeasure = true;
-            SIequivalent=new Dictionary<Measure, int>();
+            SIequivalent = new Dictionary<Measure, int>();
         }
+
         public Measure(string name, IDictionary<Measure, int> sIequivalent, Func<double, double> mapping,
             Func<double, double> inverseMapping)
         {
@@ -48,8 +48,6 @@ namespace PhysicsCalculator
             _mapping = x => x*multiplier;
             _inverseMapping = x => x/multiplier;
         }
-
-
 
         public double SIValue(double value)
         {
@@ -80,9 +78,7 @@ namespace PhysicsCalculator
         public object Clone()
         {
             var cloneDictionary = SIequivalent.ToDictionary(item => item.Key, variable => variable.Value);
-            var clone = new Measure(Name, cloneDictionary, _mapping, _inverseMapping);
-            return clone;
+            return new Measure(Name, cloneDictionary, _mapping, _inverseMapping);
         }
-      
     }
 }

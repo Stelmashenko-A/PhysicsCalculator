@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PhysicsCalculator
+﻿namespace PhysicsCalculator
 {
     public class SIMeasuresList
     {
@@ -11,6 +9,5 @@ namespace PhysicsCalculator
         public Measure Kelvin => new Measure("Kelvin");
         public Measure Mole => new Measure("Mole");
         public Measure Candela => new Measure("Candela");
-        
     }
 }
