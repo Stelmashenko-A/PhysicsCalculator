@@ -107,7 +107,7 @@ namespace PhysicsCalculator
             {
                 if (tmp[variable] % Math.Abs(power) != 0)
                 {
-                    throw new Exception();
+                    throw new RootException();
                 }
                 tmp[variable] /= Math.Abs(power);
             }

@@ -40,14 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseMeasure.cs" />
     <Compile Include="IMeasure.cs" />
     <Compile Include="Measure.cs" />
     <Compile Include="MeasureCalculator.cs" />
     <Compile Include="Operand.cs" />
     <Compile Include="PhysicsMath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RootException.cs" />
     <Compile Include="SIMeasuresList.cs" />
+    <Compile Include="SubtractionException.cs" />
+    <Compile Include="SumException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

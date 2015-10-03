@@ -9,7 +9,7 @@ namespace ConsoleUI
         {
             var siMeasures = new SIMeasuresList();
              
-             var op1=new Operand(2,siMeasures.Metre);
+             var op1=new Operand(2,siMeasures.Ampere);
              var op2 = new Operand(4,siMeasures.Metre);
             var op3 = op1 + op2;
             /*  Measure meter = new Measure("meter", 1, new Dictionary<BasicMeasures, int> { { BasicMeasures.Metre, 1 } });
