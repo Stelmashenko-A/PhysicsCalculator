@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace PhysicsCalculator
 {
     public class SIMeasuresList
     {
-        public SIMeasure Metre => new SIMeasure("Metre");
-        public SIMeasure Kilogram => new SIMeasure("Kilogram");
-        public SIMeasure Second => new SIMeasure("Second");
-        public SIMeasure Ampere => new SIMeasure("Ampere");
-        public SIMeasure Kelvin => new SIMeasure("Kelvin");
-        public SIMeasure Mole => new SIMeasure("Mole");
-        public SIMeasure Candela => new SIMeasure("Candela");
+        public Measure Metre => new Measure("Metre");
+        public Measure Kilogram => new Measure("Kilogram");
+        public Measure Second => new Measure("Second");
+        public Measure Ampere => new Measure("Ampere");
+        public Measure Kelvin => new Measure("Kelvin");
+        public Measure Mole => new Measure("Mole");
+        public Measure Candela => new Measure("Candela");
+        
     }
 }

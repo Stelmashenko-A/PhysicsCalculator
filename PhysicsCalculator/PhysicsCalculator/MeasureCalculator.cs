@@ -30,6 +30,23 @@ namespace PhysicsCalculator
                     summand2[variable] != summand1[variable]);
         }
 
+        public static bool CheckForEquals(Measure measure1, Measure measure2)
+        {
+            if (measure1.Name != measure2.Name)
+            {
+                return false;
+            }
+            if (measure1.IsBasicIsMeasure && measure2.IsBasicIsMeasure)
+            {
+                return true;
+            }
+            var measure1Si = measure1.SIequivalent;
+            var measure2Si = measure2.SIequivalent;
+            return measure1Si.Count == measure2Si.Count &&
+                   measure1Si.Keys.All(
+                       variable => measure2Si.ContainsKey(variable) && measure2Si[variable] == measure1Si[variable]);
+        }
+
         public static IDictionary<T, int> Inverse(IDictionary<T, int> measure)
         {
             return measure.ToDictionary(variable => variable.Key, variable => variable.Value*-1);
@@ -52,6 +69,7 @@ namespace PhysicsCalculator
             }
             return measurementUnits;
         }
+
 
         public static IDictionary<T, int> Divide(IDictionary<T, int> divident, IDictionary<T, int> divider)
         {

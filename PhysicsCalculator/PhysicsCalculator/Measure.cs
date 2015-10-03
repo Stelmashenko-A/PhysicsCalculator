@@ -8,22 +8,40 @@ namespace PhysicsCalculator
     {
         public string Name { get; }
 
+        public bool IsBasicIsMeasure { get; }
+
         private readonly Func<double, double> _mapping;
 
         private readonly Func<double, double> _inverseMapping;
 
-        public IDictionary<SIMeasure, int> SIequivalent { get; }
+        public IDictionary<Measure, int> SIequivalent { get; }
 
-        public Measure(string name, IDictionary<SIMeasure, int> sIequivalent, Func<double, double> mapping,
+        internal Measure(string name)
+        {
+            Name = name;
+            IsBasicIsMeasure = true;
+            SIequivalent = new Dictionary<Measure, int>();
+            SIequivalent.Add(this,1);
+
+        }
+
+        public Measure()
+        {
+            Name = "unmeasured";
+            IsBasicIsMeasure = true;
+            SIequivalent=new Dictionary<Measure, int>();
+        }
+        public Measure(string name, IDictionary<Measure, int> sIequivalent, Func<double, double> mapping,
             Func<double, double> inverseMapping)
         {
             Name = name;
             _mapping = mapping;
             _inverseMapping = inverseMapping;
             SIequivalent = sIequivalent;
+            IsBasicIsMeasure = false;
         }
 
-        public Measure(string name, double multiplier, IDictionary<SIMeasure, int> sIequivalent)
+        public Measure(string name, double multiplier, IDictionary<Measure, int> sIequivalent)
         {
             Name = name;
             SIequivalent = sIequivalent;
@@ -31,14 +49,16 @@ namespace PhysicsCalculator
             _inverseMapping = x => x/multiplier;
         }
 
+
+
         public double SIValue(double value)
         {
-            return _mapping(value);
+            return IsBasicIsMeasure ? value : _mapping(value);
         }
 
         public double FromSI(double value)
         {
-            return _inverseMapping(value);
+            return IsBasicIsMeasure ? value : _inverseMapping(value);
         }
 
         public override bool Equals(object obj)
@@ -63,7 +83,6 @@ namespace PhysicsCalculator
             var clone = new Measure(Name, cloneDictionary, _mapping, _inverseMapping);
             return clone;
         }
-
-        public bool IsBaseSIMeasure => SIequivalent.Count == 1 && SIequivalent.First().Value == 1;
+      
     }
 }

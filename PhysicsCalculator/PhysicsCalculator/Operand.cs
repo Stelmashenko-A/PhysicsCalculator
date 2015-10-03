@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PhysicsCalculator
 {
@@ -8,22 +7,23 @@ namespace PhysicsCalculator
     {
         public double Value { get; protected set; }
 
-        private IDictionary<Measure, int> _measurementUnits;
+        private Measure _measure;
 
-        public IDictionary<Measure, int> MeasurementUnits
+        public Measure MeasurementUnits
         {
             get
             {
-                return MeasureCalculator<Measure>.Clone(_measurementUnits);
+                return _measure.Clone() as Measure;
             }
-            protected set { _measurementUnits = value; }
+            protected set { _measure = value; }
         }
 
-        public Operand(double value, IDictionary<Measure, int> measurementUnits)
+        public Operand(double value, Measure measurementUnits)
         {
             Value = value;
             MeasurementUnits = measurementUnits;
         }
+
 
         public static Operand operator +(Operand operand1, Operand operand2)
         {
@@ -48,19 +48,21 @@ namespace PhysicsCalculator
 
         public static Operand operator *(Operand operand1, Operand operand2)
         {
-            return new Operand(operand1.Value*operand2.Value, MeasureCalculator<Measure>.Multiply(operand1.MeasurementUnits, operand2.MeasurementUnits));
+            return new Operand(operand1.Value*operand2.Value,
+                new Measure("unnamed",
+                    MeasureCalculator<Measure>.Multiply(operand1.MeasurementUnits.SIequivalent,
+                        operand2.MeasurementUnits.SIequivalent), x => x, x => x));
         }
 
         public static Operand operator /(double operand1, Operand operand2)
         {
 
-            return new Operand(1.0/operand2.Value, MeasureCalculator<Measure>.Inverse(operand2.MeasurementUnits));
+            return new Operand(1.0/operand2.Value, new Measure("unnamed", MeasureCalculator<Measure>.Inverse(operand2.MeasurementUnits.SIequivalent), x => x, x => x));
         }
 
         public static Operand operator /(Operand operand1, Operand operand2)
         {
             return operand1*(1/operand2);
         }
-
     }
 }
