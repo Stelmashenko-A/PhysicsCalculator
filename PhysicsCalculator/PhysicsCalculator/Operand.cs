@@ -20,7 +20,9 @@
 
         public static Operand operator +(Operand operand1, Operand operand2)
         {
-            if (!MeasureCalculator<Measure>.CheckForEquals(operand1.MeasurementUnits, operand2.MeasurementUnits))
+            if (
+                !MeasureCalculator.CheckForEquals(operand1.MeasurementUnits,
+                    operand2.MeasurementUnits))
                 throw new SumException();
             return new Operand(operand1.Value + operand2.Value, operand1.MeasurementUnits);
         }
@@ -49,17 +51,16 @@
 
         public static Operand operator *(Operand operand1, Operand operand2)
         {
-            return new Operand(operand1._measure.SIValue(operand1.Value)*operand2._measure.SIValue(operand2.Value),
-                new Measure("unnamed",
-                    MeasureCalculator<Measure>.Multiply(operand1.MeasurementUnits.SIequivalent,
-                        operand2.MeasurementUnits.SIequivalent), x => x, x => x));
+            return new Operand(operand1.Value*operand2.Value,
+                MeasureCalculator.Multiply(operand1.MeasurementUnits,
+                    operand2.MeasurementUnits));
         }
 
         public static Operand operator /(double operand1, Operand operand2)
         {
-            return new Operand(1.0/operand2._measure.SIValue(operand2.Value),
-                new Measure("unnamed", MeasureCalculator<Measure>.Inverse(operand2.MeasurementUnits.SIequivalent),
-                    x => x, x => x));
+            return new Operand(1.0/operand2.Value,
+                MeasureCalculator.Inverse(operand2.MeasurementUnits)
+                );
         }
 
         public static Operand operator /(Operand operand1, Operand operand2)

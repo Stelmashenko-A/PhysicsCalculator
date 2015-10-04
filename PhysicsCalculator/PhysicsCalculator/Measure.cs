@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace PhysicsCalculator
 {
-    public class Measure : IMeasure
+    public class Measure
     {
         public string Name { get; }
 
         public bool IsBasicIsMeasure { get; }
 
-        private readonly Func<double, double> _mapping;
-
-        private readonly Func<double, double> _inverseMapping;
-
         public IDictionary<Measure, int> SIequivalent { get; }
+
+        public IDictionary<Measure, int> Equivalent { get; }
 
         internal Measure(string name)
         {
@@ -22,6 +19,7 @@ namespace PhysicsCalculator
             IsBasicIsMeasure = true;
             SIequivalent = new Dictionary<Measure, int>();
             SIequivalent.Add(this, 1);
+            Equivalent = SIequivalent;
         }
 
         public Measure()
@@ -31,32 +29,21 @@ namespace PhysicsCalculator
             SIequivalent = new Dictionary<Measure, int>();
         }
 
-        public Measure(string name, IDictionary<Measure, int> sIequivalent, Func<double, double> mapping,
-            Func<double, double> inverseMapping)
+        public Measure(string name, IDictionary<Measure, int> equivalent, IDictionary<Measure, int> sIequivalent)
         {
             Name = name;
-            _mapping = mapping;
-            _inverseMapping = inverseMapping;
             SIequivalent = sIequivalent;
             IsBasicIsMeasure = false;
+            Equivalent = equivalent;
         }
 
-        public Measure(string name, double multiplier, IDictionary<Measure, int> sIequivalent)
+        public Measure(string name, IDictionary<Measure, int> sIequivalent)
         {
             Name = name;
             SIequivalent = sIequivalent;
-            _mapping = x => x*multiplier;
-            _inverseMapping = x => x/multiplier;
-        }
-
-        public double SIValue(double value)
-        {
-            return IsBasicIsMeasure ? value : _mapping(value);
-        }
-
-        public double FromSI(double value)
-        {
-            return IsBasicIsMeasure ? value : _inverseMapping(value);
+            IsBasicIsMeasure = false;
+            Equivalent = new Dictionary<Measure, int>();
+            Equivalent.Add(this, 1);
         }
 
         public override bool Equals(object obj)
@@ -77,8 +64,9 @@ namespace PhysicsCalculator
 
         public object Clone()
         {
-            var cloneDictionary = SIequivalent.ToDictionary(item => item.Key, variable => variable.Value);
-            return new Measure(Name, cloneDictionary, _mapping, _inverseMapping);
+            var cloneDictionary1 = SIequivalent.ToDictionary(item => item.Key, variable => variable.Value);
+            var cloneDictionary2 = Equivalent.ToDictionary(item => item.Key, variable => variable.Value);
+            return new Measure(Name, cloneDictionary2, cloneDictionary1);
         }
     }
 }

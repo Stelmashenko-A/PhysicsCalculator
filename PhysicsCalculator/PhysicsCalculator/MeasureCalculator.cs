@@ -4,15 +4,15 @@ using System.Linq;
 
 namespace PhysicsCalculator
 {
-    public static class MeasureCalculator<T> where T : class, IMeasure
+    public static class MeasureCalculator
     {
-        public static IDictionary<T, int> Clone(IDictionary<T, int> obj)
+        public static IDictionary<Measure, int> Clone(IDictionary<Measure, int> obj)
         {
-            var clone = new Dictionary<T, int>();
+            var clone = new Dictionary<Measure, int>();
             foreach (var variable in obj)
             {
                 var objClone = variable.Key.Clone();
-                var tmp = objClone as T;
+                var tmp = objClone as Measure;
                 if (tmp != null)
                 {
                     clone.Add(tmp, variable.Value);
@@ -21,7 +21,7 @@ namespace PhysicsCalculator
             return clone;
         }
 
-        public static bool CheckForEquals(IDictionary<T, int> summand1, IDictionary<T, int> summand2)
+        public static bool CheckForEquals(IDictionary<Measure, int> summand1, IDictionary<Measure, int> summand2)
         {
             if (summand1.Count != summand2.Keys.Count) return false;
             return !summand1.Keys.Any(
@@ -40,19 +40,25 @@ namespace PhysicsCalculator
             {
                 return true;
             }
-            var measure1Si = measure1.SIequivalent;
-            var measure2Si = measure2.SIequivalent;
+            var measure1Si = measure1.Equivalent;
+            var measure2Si = measure2.Equivalent;
             return measure1Si.Count == measure2Si.Count &&
                    measure1Si.Keys.All(
                        variable => measure2Si.ContainsKey(variable) && measure2Si[variable] == measure1Si[variable]);
         }
 
-        public static IDictionary<T, int> Inverse(IDictionary<T, int> measure)
+        public static IDictionary<Measure, int> Inverse(IDictionary<Measure, int> measure)
         {
             return measure.ToDictionary(variable => variable.Key, variable => variable.Value*-1);
         }
 
-        public static IDictionary<T, int> Multiply(IDictionary<T, int> multiplier1, IDictionary<T, int> multiplier2)
+        public static Measure Inverse(Measure measure)
+        {
+            return new Measure("unnamed", Inverse(measure.Equivalent), Inverse(measure.SIequivalent));
+        }
+
+        public static IDictionary<Measure, int> Multiply(IDictionary<Measure, int> multiplier1,
+            IDictionary<Measure, int> multiplier2)
         {
             var measurementUnits = Clone(multiplier1);
             var multiplier2Clone = Clone(multiplier2);
@@ -70,16 +76,28 @@ namespace PhysicsCalculator
             return measurementUnits;
         }
 
-        public static IDictionary<T, int> Divide(IDictionary<T, int> divident, IDictionary<T, int> divider)
+        public static Measure Multiply(Measure measure1, Measure measure2)
+        {
+            return new Measure("unnamed", Multiply(measure1.Equivalent, measure2.Equivalent),
+                Multiply(measure1.SIequivalent, measure2.SIequivalent));
+        }
+
+        public static IDictionary<Measure, int> Divide(IDictionary<Measure, int> divident,
+            IDictionary<Measure, int> divider)
         {
             return Multiply(divident, Inverse(divider));
         }
 
-        public static IDictionary<T, int> Pow(IDictionary<T, int> value, int power)
+        public static Measure Divide(Measure measure1, Measure measure2)
+        {
+            return Multiply(measure1, Inverse(measure2));
+        }
+
+        public static IDictionary<Measure, int> Pow(IDictionary<Measure, int> value, int power)
         {
             if (power == 0)
             {
-                return new Dictionary<T, int>();
+                return new Dictionary<Measure, int>();
             }
 
             var result = Clone(value);
@@ -95,7 +113,13 @@ namespace PhysicsCalculator
             return result;
         }
 
-        public static IDictionary<T, int> Root(IDictionary<T, int> value, int power)
+
+        public static Measure Pow(Measure measure, int pow)
+        {
+            return new Measure("unnamed", Pow(measure.Equivalent, pow), Pow(measure.SIequivalent, pow));
+        }
+
+        public static IDictionary<Measure, int> Root(IDictionary<Measure, int> value, int power)
         {
             if (power == 0)
             {
@@ -112,6 +136,11 @@ namespace PhysicsCalculator
                 tmp[variable] /= Math.Abs(power);
             }
             return tmp;
+        }
+
+        public static Measure Root(Measure measure, int pow)
+        {
+            return new Measure("unnamed", Root(measure.Equivalent, pow), Root(measure.SIequivalent, pow));
         }
     }
 }

@@ -45,7 +45,7 @@ namespace PhysicsCalculator
             return vector1.Coordinate2D.X*vector2.Coordinate2D.X + vector1.Coordinate2D.Y + vector2.Coordinate2D.Y;
         }
 
-        public static Vector2D operator * (Vector2D vector, double scalar)
+        public static Vector2D operator *(Vector2D vector, double scalar)
         {
             return new Vector2D(new Coordinate2D(vector.Coordinate2D.X*scalar, vector.Coordinate2D.Y*scalar));
         }
@@ -54,18 +54,5 @@ namespace PhysicsCalculator
         {
             return vector*scalar;
         }
-
-    }
-
-    public class Coordinate2D
-    {
-        public Coordinate2D(double x, double y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public double X { get; }
-        public double Y { get; }
     }
 }
