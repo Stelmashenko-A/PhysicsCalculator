@@ -50,6 +50,7 @@
     <Compile Include="SIMeasuresList.cs" />
     <Compile Include="SubtractionException.cs" />
     <Compile Include="SumException.cs" />
+    <Compile Include="Vector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
