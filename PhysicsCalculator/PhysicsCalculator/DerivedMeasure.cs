@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PhysicsCalculator
 {
@@ -10,7 +12,7 @@ namespace PhysicsCalculator
         {
             get
             {
-                var dictionary = new Dictionary<Measure, int> {{_siMeasuresList.Metre, 1}, {_siMeasuresList.Metre, -1}};
+                var dictionary = new Dictionary<Measure, int> ();
                 return new Measure("Radian", dictionary);
             }
         }
@@ -19,7 +21,7 @@ namespace PhysicsCalculator
         {
             get
             {
-                var dictionary = new Dictionary<Measure, int> {{_siMeasuresList.Metre, 2}, {_siMeasuresList.Metre, -2}};
+                var dictionary = new Dictionary<Measure, int> ();
                 return new Measure("Steradian", dictionary);
             }
         }
@@ -108,9 +110,7 @@ namespace PhysicsCalculator
             {
                 var dictionarySi = new Dictionary<Measure, int>
                 {
-                    {_siMeasuresList.Candela, 1},
-                    {_siMeasuresList.Metre, 2},
-                    {_siMeasuresList.Metre, -2}
+                    {_siMeasuresList.Candela, 1}
                 };
                 var dictionaryEquivalent = new Dictionary<Measure, int> {{_siMeasuresList.Candela, 1}, {Steradian, 1}};
                 return new Measure("Lumen", dictionaryEquivalent, dictionarySi);
@@ -124,8 +124,7 @@ namespace PhysicsCalculator
                 var dictionarySi = new Dictionary<Measure, int>
                 {
                     {_siMeasuresList.Candela, 1},
-                    {_siMeasuresList.Metre, 2},
-                    {_siMeasuresList.Metre, -4}
+                    {_siMeasuresList.Metre, -2},
                 };
                 var dictionaryEquivalent = new Dictionary<Measure, int> {{Lumen, 1}, {_siMeasuresList.Metre, -2}};
                 return new Measure("Lux", dictionaryEquivalent, dictionarySi);
@@ -308,6 +307,54 @@ namespace PhysicsCalculator
                 };
                 return new Measure("Katal", dictionarySi);
             }
+        }
+
+        public Measure Standardize(Measure measure)
+        {
+            Measure result;
+            try
+            {
+                result = _measures.First(x => MeasureCalculator.CheckForEqualsSi(measure, x));
+            }
+            catch (Exception)
+            {
+
+                result = measure;
+            }
+            return result;
+
+        }
+
+        private readonly List<Measure> _measures;
+
+        public DerivedMeasure()
+        {
+            _measures = new List<Measure>
+            {
+                Coulomb,
+                Newton,
+                Volt,
+                DegreeCelsius,
+                Becquerel,
+                Farad,
+                Gray,
+                Henry,
+                Hertz,
+                Joule,
+                Katal,
+                Lumen,
+                Lux,
+                Ohm,
+                Pascal,
+                Radian,
+                Siemens,
+                Sievert,
+                Steradian,
+                Tesla,
+                Watt,
+                Weber
+            };
+
         }
     }
 }

@@ -32,7 +32,7 @@ namespace PhysicsCalculator
 
         public static bool CheckForEquals(Measure measure1, Measure measure2)
         {
-            if (measure1.Name != measure2.Name)
+            if (measure1.Name!="unnamed" && measure2.Name!="unnamed"&&measure1.Name != measure2.Name)
             {
                 return false;
             }
@@ -42,9 +42,36 @@ namespace PhysicsCalculator
             }
             var measure1Si = measure1.Equivalent;
             var measure2Si = measure2.Equivalent;
-            return measure1Si.Count == measure2Si.Count &&
-                   measure1Si.Keys.All(
-                       variable => measure2Si.ContainsKey(variable) && measure2Si[variable] == measure1Si[variable]);
+            if (measure2Si.Count != measure1Si.Count)
+                return false;
+            foreach (var VARIABLE in measure1Si.Keys)
+            {
+                if (!measure2Si.ContainsKey(VARIABLE))
+                    return false;
+                if (measure2Si[VARIABLE] != measure1Si[VARIABLE])
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool CheckForEqualsSi(Measure measure1, Measure measure2)
+        {
+            if (measure1.IsBasicIsMeasure && measure2.IsBasicIsMeasure)
+            {
+                return true;
+            }
+            var measure1Si = measure1.SIequivalent;
+            var measure2Si = measure2.SIequivalent;
+            if (measure2Si.Count != measure1Si.Count)
+                return false;
+            foreach (var VARIABLE in measure1Si.Keys)
+            {
+                if (!measure2Si.ContainsKey(VARIABLE))
+                    return false;
+                if (measure2Si[VARIABLE] != measure1Si[VARIABLE])
+                    return false;
+            }
+            return true;
         }
 
         public static IDictionary<Measure, int> Inverse(IDictionary<Measure, int> measure)
