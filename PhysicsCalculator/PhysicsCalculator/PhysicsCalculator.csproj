@@ -52,7 +52,8 @@
     <Compile Include="SIMeasuresList.cs" />
     <Compile Include="SubtractionException.cs" />
     <Compile Include="SumException.cs" />
-    <Compile Include="Vector.cs" />
+    <Compile Include="Vector2D.cs" />
+    <Compile Include="Vector3D.cs" />
     <Compile Include="VectorOperand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
