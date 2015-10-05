@@ -10,7 +10,7 @@ namespace PhysicsCalculator
             CornerX = cornerX;
             CornerY = cornerY;
             CornerZ = cornerZ;
-            Coordinate3D = new Coordinate3D(Math.Cos(CornerX)*Length, Math.Cos(CornerY) * Length, Math.Cos(CornerZ) * Length);
+            Coordinate3D = new Coordinate3D(Math.Cos(CornerX)*Length, Math.Cos(CornerY)*Length, Math.Cos(CornerZ)*Length);
         }
 
         public Vector3D(Coordinate3D coordinate3D)
@@ -28,13 +28,16 @@ namespace PhysicsCalculator
         public double Length { get; }
 
         public double CornerX { get; }
+
         public double CornerY { get; }
+
         public double CornerZ { get; }
+
         public static Vector3D operator +(Vector3D vector1, Vector3D vector2)
         {
             return
                 new Vector3D(new Coordinate3D(vector1.Coordinate3D.X + vector2.Coordinate3D.X,
-                    vector1.Coordinate3D.Y, vector2.Coordinate3D.Y+vector1.Coordinate3D.Z+vector2.Coordinate3D.Z));
+                    vector1.Coordinate3D.Y, vector2.Coordinate3D.Y + vector1.Coordinate3D.Z + vector2.Coordinate3D.Z));
         }
 
         public static Vector3D operator -(Vector3D vector1, Vector3D vector2)
@@ -46,17 +49,20 @@ namespace PhysicsCalculator
 
         public static double operator *(Vector3D vector1, Vector3D vector2)
         {
-            return vector1.Coordinate3D.X * vector2.Coordinate3D.X + vector1.Coordinate3D.Y * vector2.Coordinate3D.Y + vector1.Coordinate3D.Z * vector2.Coordinate3D.Z;
+            return vector1.Coordinate3D.X*vector2.Coordinate3D.X + vector1.Coordinate3D.Y*vector2.Coordinate3D.Y +
+                   vector1.Coordinate3D.Z*vector2.Coordinate3D.Z;
         }
 
         public static Vector3D operator *(Vector3D vector, double scalar)
         {
-            return new Vector3D(new Coordinate3D(vector.Coordinate3D.X * scalar, vector.Coordinate3D.Y * scalar, vector.Coordinate3D.Z * scalar));
+            return
+                new Vector3D(new Coordinate3D(vector.Coordinate3D.X*scalar, vector.Coordinate3D.Y*scalar,
+                    vector.Coordinate3D.Z*scalar));
         }
 
         public static Vector3D operator *(double scalar, Vector3D vector)
         {
-            return vector * scalar;
+            return vector*scalar;
         }
     }
 }
