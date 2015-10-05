@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PhysicsCalculator;
 
 namespace ConsoleUI
@@ -14,7 +15,9 @@ namespace ConsoleUI
             var pound = new Measure("фунт", d);
             var op1 = new Operand(2, derivedMeasure.Becquerel);
             var op2 = new Operand(4, derivedMeasure.Volt);
-            var op3 = op1/op2;
+            var force= new VectorOperand(new Vector2D(Math.Sqrt(2.0)*2,Math.PI/4), derivedMeasure.Newton);
+            var path = new VectorOperand(new Vector2D(2,0),siMeasures.Metre );
+            Operand op3 = force*path;
             var m = derivedMeasure.Standardize(op3.MeasurementUnits);
             /*  Measure meter = new Measure("meter", 1, new Dictionary<BasicMeasures, int> { { BasicMeasures.Metre, 1 } });
             Operand op1 = new Operand(2, new Dictionary<Measure, int> { { meter, 1 } });

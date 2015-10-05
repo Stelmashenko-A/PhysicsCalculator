@@ -2,7 +2,7 @@
 
 namespace PhysicsCalculator
 {
-    internal class Vector2D
+    public class Vector2D
     {
         public Vector2D(double length, double corner)
         {
@@ -42,7 +42,7 @@ namespace PhysicsCalculator
 
         public static double operator *(Vector2D vector1, Vector2D vector2)
         {
-            return vector1.Coordinate2D.X*vector2.Coordinate2D.X + vector1.Coordinate2D.Y + vector2.Coordinate2D.Y;
+            return vector1.Coordinate2D.X*vector2.Coordinate2D.X + vector1.Coordinate2D.Y * vector2.Coordinate2D.Y;
         }
 
         public static Vector2D operator *(Vector2D vector, double scalar)

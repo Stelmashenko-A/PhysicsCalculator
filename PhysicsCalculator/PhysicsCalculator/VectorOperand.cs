@@ -1,6 +1,6 @@
 ﻿namespace PhysicsCalculator
 {
-    internal class VectorOperand
+    public class VectorOperand
     {
         public Vector2D Value { get; }
 
@@ -55,9 +55,9 @@
             return new VectorOperand(operand2.Value*operand1, operand2.MeasurementUnits);
         }
 
-        public static double operator *(VectorOperand operand1, VectorOperand operand2)
+        public static Operand operator *(VectorOperand operand1, VectorOperand operand2)
         {
-            return operand1.Value*operand2.Value;
+            return new Operand(operand1.Value*operand2.Value,MeasureCalculator.Multiply(operand1.MeasurementUnits,operand2.MeasurementUnits));
         }
 
         public static VectorOperand operator /(VectorOperand operand1, double operand2)

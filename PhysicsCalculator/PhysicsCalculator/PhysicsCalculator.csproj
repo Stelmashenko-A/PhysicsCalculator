@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coordinate3D.cs" />
     <Compile Include="DerivedMeasure.cs" />
     <Compile Include="Coordinate2D.cs" />
     <Compile Include="Measure.cs" />
