@@ -44,11 +44,11 @@ namespace PhysicsCalculator
             var measure2Si = measure2.Equivalent;
             if (measure2Si.Count != measure1Si.Count)
                 return false;
-            foreach (var VARIABLE in measure1Si.Keys)
+            foreach (var variable in measure1Si.Keys)
             {
-                if (!measure2Si.ContainsKey(VARIABLE))
+                if (!measure2Si.ContainsKey(variable))
                     return false;
-                if (measure2Si[VARIABLE] != measure1Si[VARIABLE])
+                if (measure2Si[variable] != measure1Si[variable])
                     return false;
             }
             return true;
@@ -64,11 +64,11 @@ namespace PhysicsCalculator
             var measure2Si = measure2.SIequivalent;
             if (measure2Si.Count != measure1Si.Count)
                 return false;
-            foreach (var VARIABLE in measure1Si.Keys)
+            foreach (var variable in measure1Si.Keys)
             {
-                if (!measure2Si.ContainsKey(VARIABLE))
+                if (!measure2Si.ContainsKey(variable))
                     return false;
-                if (measure2Si[VARIABLE] != measure1Si[VARIABLE])
+                if (measure2Si[variable] != measure1Si[variable])
                     return false;
             }
             return true;
@@ -81,7 +81,9 @@ namespace PhysicsCalculator
 
         public static Measure Inverse(Measure measure)
         {
-            return new Measure("unnamed", Inverse(measure.Equivalent), Inverse(measure.SIequivalent));
+            var derivedMeasure = new DerivedMeasure();
+            return 
+                derivedMeasure.Standardize(new Measure("unnamed", Inverse(measure.Equivalent), Inverse(measure.SIequivalent)));
         }
 
         public static IDictionary<Measure, int> Multiply(IDictionary<Measure, int> multiplier1,
@@ -100,13 +102,15 @@ namespace PhysicsCalculator
                     measurementUnits.Add(variable, multiplier2Clone[variable]);
                 }
             }
+
             return measurementUnits;
         }
 
         public static Measure Multiply(Measure measure1, Measure measure2)
         {
-            return new Measure("unnamed", Multiply(measure1.Equivalent, measure2.Equivalent),
-                Multiply(measure1.SIequivalent, measure2.SIequivalent));
+            var derivedMeasure = new DerivedMeasure();
+            return derivedMeasure.Standardize(new Measure("unnamed", Multiply(measure1.Equivalent, measure2.Equivalent),
+                Multiply(measure1.SIequivalent, measure2.SIequivalent)));
         }
 
         public static IDictionary<Measure, int> Divide(IDictionary<Measure, int> divident,
@@ -117,7 +121,8 @@ namespace PhysicsCalculator
 
         public static Measure Divide(Measure measure1, Measure measure2)
         {
-            return Multiply(measure1, Inverse(measure2));
+            var derivedMeasure = new DerivedMeasure();
+            return derivedMeasure.Standardize(Multiply(measure1, Inverse(measure2)));
         }
 
         public static IDictionary<Measure, int> Pow(IDictionary<Measure, int> value, int power)
@@ -143,7 +148,8 @@ namespace PhysicsCalculator
 
         public static Measure Pow(Measure measure, int pow)
         {
-            return new Measure("unnamed", Pow(measure.Equivalent, pow), Pow(measure.SIequivalent, pow));
+            var derivedMeasure = new DerivedMeasure();
+            return derivedMeasure.Standardize( new Measure("unnamed", Pow(measure.Equivalent, pow), Pow(measure.SIequivalent, pow)));
         }
 
         public static IDictionary<Measure, int> Root(IDictionary<Measure, int> value, int power)
@@ -167,7 +173,8 @@ namespace PhysicsCalculator
 
         public static Measure Root(Measure measure, int pow)
         {
-            return new Measure("unnamed", Root(measure.Equivalent, pow), Root(measure.SIequivalent, pow));
+            var derivedMeasure = new DerivedMeasure();
+            return derivedMeasure.Standardize(new Measure("unnamed", Root(measure.Equivalent, pow), Root(measure.SIequivalent, pow)));
         }
     }
 }

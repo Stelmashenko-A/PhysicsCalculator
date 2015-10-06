@@ -40,12 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Operand3DConverter.cs" />
     <Compile Include="Coordinate3D.cs" />
     <Compile Include="DerivedMeasure.cs" />
     <Compile Include="Coordinate2D.cs" />
     <Compile Include="Measure.cs" />
     <Compile Include="MeasureCalculator.cs" />
     <Compile Include="Operand.cs" />
+    <Compile Include="Operand2DConverter.cs" />
+    <Compile Include="OperandConverter.cs" />
     <Compile Include="PhysicsMath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RootException.cs" />
